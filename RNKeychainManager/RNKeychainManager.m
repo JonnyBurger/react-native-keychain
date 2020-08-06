@@ -178,7 +178,11 @@ SecAccessControlCreateFlags accessControlValue(NSDictionary *options)
       return kSecAccessControlDevicePasscode;
     }
     else if ([options[kAccessControlType] isEqualToString: kAccessControlBiometryAnyOrDevicePasscode]) {
-      return kSecAccessControlTouchIDAny|kSecAccessControlOr|kSecAccessControlDevicePasscode;
+        if (@available(iOS 11.3, *)) {
+            return kSecAccessControlBiometryAny|kSecAccessControlOr|kSecAccessControlDevicePasscode;
+        } else {
+            return kSecAccessControlTouchIDAny|kSecAccessControlOr|kSecAccessControlDevicePasscode;
+        }
     }
     else if ([options[kAccessControlType] isEqualToString: kAccessControlBiometryCurrentSetOrDevicePasscode]) {
       return kSecAccessControlTouchIDCurrentSet|kSecAccessControlOr|kSecAccessControlDevicePasscode;
